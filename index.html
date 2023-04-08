@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Calculator app</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+    /* 1st */
+    body{
+      display: flex;
+      font-family: 'League Spartan', sans-serif;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      background-color: hsl(222, 26%, 31%);
+    }
+    main{
+      display: flex;
+      flex-direction: column;
+      width: 500px;
+      background-color: hsl(222, 26%, 31%);
+      justify-content: space-evenly;
+    }
+      
+    .btns{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr ;
+      gap: 25px;
+      padding: 25px;
+      background-color: hsl(224, 36%, 15%);
+      border-radius: 15px;
+    }
+    .screen{
+      /* width: 500px; */
+      display: flex;
+    }
+    #screen{
+      overflow: hidden;
+      margin: 20px 0;
+
+      min-height: 60px;
+      max-width: 100%;
+      padding: 25px;
+      text-align: right;
+      font-size: 50px;
+      background-color: hsl(223, 36%, 15%);
+      color:hsl(0, 0%, 100%);
+      border-radius: 15px;
+    }.top{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: transparent;
+      color: aliceblue;
+    }
+    .toggle-bar{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .toggle{
+      display: flex;
+      width: 80px;
+      border-radius: 25px;
+      justify-content: space-between;
+      background-color: hsl(223, 36%, 15%);
+      height: 25px;
+      position: relative;
+
+    }
+    .toggle input[type="radio"]{
+      display: none;
+    }
+    .toggle .toggle-btn{
+      width: 20px;
+      height: 20px;
+      background-color: royalblue;
+      border-radius: 50px;
+      position: absolute;
+      top: 3px;
+      transition: all .4s ease;
+      z-index: 1;
+    
+    }
+    label{
+      position: absolute;
+      z-index: 99;
+      /* left: -55px; */
+  
+      
+    }
+    label:nth-of-type(1){
+      top: -35px;
+      left: 10px;
+    }
+    label:nth-of-type(2){
+      top: -35px;
+      left: 35px;
+    }
+    label:nth-of-type(3){
+      top: -35px;
+      left: 60px;
+    }
+     .toggle #first:checked ~ .toggle-btn{
+      transform: translateX(5px);
+      background-color: hsl(6, 63%, 50%);
+    }
+    
+    .toggle #second:checked ~ .toggle-btn{
+      transform: translateX(30px);
+      background-color: hsl(25, 98%, 40%);
+    }
+    .toggle #third:checked ~ .toggle-btn{
+      transform: translateX(55px);
+      background-color: hsl(176, 100%, 44%);
+    }
+    .btn{
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 5px 1px  hsl(224, 28%, 35%);
+      border-style: none;
+      font-size: 32px;
+      font-weight:700;
+
+    }
+    .number:hover{
+      background-color: hsl(0, 0%, 100%);
+      cursor: pointer;
+    }
+    .delete{
+
+      background-color: hsl(225, 21%, 49%);
+      color: aliceblue;
+      font-weight:700;
+      box-shadow: 0 5px 2px  hsl(224, 28%, 35%);
+    }
+    .delete:hover{
+      background-color: hsl(225, 21%, 65%);
+    }
+    .reset{
+      padding: 15px;
+      grid-column-start:1;
+      grid-column-end: 3;
+      background-color: hsl(225, 21%, 49%);
+      color: aliceblue;
+      font-weight:700;
+      box-shadow: 0 5px 2px  hsl(224, 28%, 35%);
+    }
+    .reset:hover{
+      background-color: hsl(225, 21%, 65%);
+    }
+    .s{
+      grid-column-start:3;
+      grid-column-end: 5;
+      font-size: large;
+      font-weight: 700;
+      color: aliceblue;
+      background-color: hsl(6, 70%, 54%);
+      box-shadow: 0 5px 2px  hsl(6, 70%, 54%);
+
+    }
+    .s:hover{
+      background-color: hsl(6, 63%, 70%);
+    }
+    @media(max-width :375px){
+      main{
+        width: 350px;
+      }
+      .btns{
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <h1>calc</h1>
+   <div class="toggle-bar">
+    <h4>Theme</h4>
+    <div class="toggle">
+      <label for="first">   <p class="first">1</p>
+      </label>
+      <label for="second">   <p class="second">2</p>
+      </label>
+      <label for="third">   <p class="third">3</p>
+      </label>
+    <input type="radio" name="option"id="first" checked>
+    <input type="radio" name="option" id="second" >
+
+    <input type="radio" name="option" id="third">
+    <div class="toggle-btn"></div>
+   
+
+    </div>
+    </div>
+  </div>
+  <div class="screen">
+    <input type="text" id="screen">
+  </div>
+  <div class="btns">
+  <button class="btn number  7">7</button>
+  <button class="btn number  8">8</button>
+  <button class="btn number  9">9</button>
+  <button class="btn   delete" style="font-size: large;">DEL</button>
+  <button class="btn number  4">4</button>
+  <button class="btn number  5">5</button>
+  <button class="btn number  6">6</button>
+  <button class="btn number  +">+</button>
+  <button class="btn number  1">1</button>
+  <button class="btn number  2">2</button>
+  <button class="btn number  3">3</button>
+  <button class="btn number  -">-</button>
+  <button class="btn number  .">.</button>
+  <button class="btn number  0">0</button>
+  <button class="btn number  /">/</button>
+  <button class="btn number  *">*</button>
+  <button class="btn   reset" style="font-size: large;">RESET</button>
+  <button class="btn   s">answer</button>
+
+
+  </div>
+</main>
+<script>
+
+  const screenbtn =document.querySelector('#screen')
+  const secondTh =document.querySelector('#second')
+  const firstTh =document.querySelector('#first')
+  const thirdTh =document.querySelector('#third')
+  const btns =document.querySelector('.btns')
+  const topcard =document.querySelector('main .top')
+  const togglecard =document.querySelector('.toggle')
+
+
+
+
+
+
+
+  const btn =document.querySelectorAll('.number')
+  const main =document.querySelector('main')
+  const body =document.querySelector('body')
+  const deletebtn = document.querySelector('.delete')
+  const resetbtn =document.querySelector('.reset')
+  const answerbtn =document.querySelector('.s')
+
+
+
+  const buttons =document.querySelectorAll('.btn')
+  buttons.forEach(function(item){
+    item.addEventListener('click',function (e) { 
+      var screenval = "";
+
+      if(e.target.classList.contains('1')){
+        screenbtn.value += "1";
+       
+        // screenbtn.style.backgroundColor ="red";
+        
+      }
+       else if(e.target.classList.contains('2')){
+        screenbtn.value += "2";
+       
+       
+      }
+       else if(e.target.classList.contains('3')){
+        screenbtn.value += "3";
+       
+       
+      }
+       else if(e.target.classList.contains('4')){
+        screenbtn.value += "4";
+       
+       
+      }
+       else if(e.target.classList.contains('5')){
+        screenbtn.value += "5";
+       
+       
+      }
+       else if(e.target.classList.contains('6')){
+        screenbtn.value += "6";
+       
+       
+      }
+       else if(e.target.classList.contains('7')){
+        screenbtn.value += "7";
+       
+       
+      }
+       else if(e.target.classList.contains('8')){
+        screenbtn.value += "8";
+       
+       
+      }
+       else if(e.target.classList.contains('9')){
+        screenbtn.value += "9";
+       
+       
+      }
+       else if(e.target.classList.contains('0')){
+        screenbtn.value += "0";
+       
+       
+     }
+     else if(e.target.classList.contains('+')){
+        screenbtn.value += "+";
+       
+       
+     }
+     else if(e.target.classList.contains('-')){
+        screenbtn.value += "-";
+       
+       
+     }
+     else if(e.target.classList.contains('/')){
+        screenbtn.value += "/";
+       
+       
+     }
+     else if(e.target.classList.contains('*')){
+        screenbtn.value += "*";
+       
+       
+     }
+     else if(e.target.classList.contains('.')){
+        screenbtn.value += ".";
+       
+       
+     }
+     else if(e.target.classList.contains('s')){
+        screenbtn.value = eval(screenbtn.value);
+       
+     }
+     if(e.target.classList.contains('reset')){
+        screenbtn.value = "";
+       
+     }
+     if(e.target.classList.contains('delete')){
+       screenbtn.value = screenbtn.value.substring( 0 , screenbtn.value.length-1);
+      
+
+       
+     }
+    
+        
+     })
+   
+     
+  })
+  const radioButtons = document.getElementsByName('option');
+
+radioButtons.forEach(button => {
+  button.addEventListener('change', () => {
+    radioButtons.forEach(otherButton => {
+      if (otherButton !== button) {
+        otherButton.checked = false;
+      }
+    });
+  });
+});
+
+firstTh.addEventListener('change',function () { 
+  if (firstTh.checked  === true) {
+    body.style.backgroundColor = "  hsl(222, 26%, 31%)"
+    togglecard.style.backgroundColor = "  hsl(223, 31%, 20%)"
+    main.style.backgroundColor = " hsl(222, 26%, 31%)"
+    deletebtn.style.backgroundColor = " hsl(225, 21%, 49%)"
+    deletebtn.style.boxShadow  = "0 5px 2px  hsl(224, 28%, 35%)"
+    deletebtn.addEventListener('mouseover',function () {
+      deletebtn.style.backgroundColor = "hsl(225, 21%, 80%)"
+      })
+    deletebtn.addEventListener('mouseout',function () {
+      deletebtn.style.backgroundColor= "hsl(225, 21%, 49%)"
+      })
+    resetbtn.style.backgroundColor = "  hsl(225, 21%, 49%)"
+    resetbtn.style.boxShadow  = "0 5px 2px  hsl(224, 28%, 35%)"
+    resetbtn.addEventListener('mouseover',function () {
+      resetbtn.style.backgroundColor = "hsl(225, 21%, 80%)"
+      })
+    resetbtn.addEventListener('mouseout',function () {
+      resetbtn.style.backgroundColor= "hsl(225, 21%, 49%)"
+      })
+    answerbtn.style.backgroundColor = "hsl(6, 63%, 50%)"
+    answerbtn.style.boxShadow  = "0 5px 2px  hsl(6, 70%, 34%)"
+    answerbtn.addEventListener('mouseover',function () {
+      answerbtn.style.backgroundColor = "hsl(6, 63%, 80%)"
+      })
+    answerbtn.addEventListener('mouseout',function () {
+      answerbtn.style.backgroundColor= "hsl(6, 63%, 35%)"
+      })
+    btns.style.backgroundColor = "   hsl(223, 31%, 20%)"
+    screenbtn.style.backgroundColor = " hsl(224, 36%, 15%)"
+    screenbtn.style.color = "  hsl(225, 100%, 100%)"
+
+    deletebtn.style.color = "hsl(225, 100%, 100%)"
+    btn.forEach(item => {
+      item.style.backgroundColor = " hsl(45, 7%, 89%)"
+      item.style.boxShadow  = "0 5px 2px  hsl(35, 11%, 61%)"
+      item.addEventListener('mouseover',function () {
+      item.style.backgroundColor = "hsl(0, 100%, 100%)"
+      })
+    item.addEventListener('mouseout',function () {
+      item.style.backgroundColor= "hsl(30, 25%, 89%)"
+      })
+      item.style.color = " hsl(225, 0%, 0%)"
+    });
+    topcard.style.color = " hsl(225, 100%, 100%)"
+
+    
+  }
+ })
+secondTh.addEventListener('change',function () { 
+  if (secondTh.checked  === true) {
+    body.style.backgroundColor = " hsl(0, 0%, 90%)"
+    main.style.backgroundColor = "hsl(0, 0%, 90%)"
+    deletebtn.style.backgroundColor = " hsl(185, 42%, 37%)"
+    deletebtn.style.boxShadow  = "0 5px 2px  hsl(185, 58%, 25%)"
+    deletebtn.addEventListener('mouseover',function () {
+      deletebtn.style.backgroundColor = "hsl(185, 42%, 75%)"
+      })
+    deletebtn.addEventListener('mouseout',function () {
+      deletebtn.style.backgroundColor= "hsl(185, 42%, 37%)"
+      })
+    resetbtn.style.backgroundColor = "  hsl(185, 42%, 37%)"
+    resetbtn.style.boxShadow  = "0 5px 2px  hsl(185, 58%, 25%)"
+    resetbtn.addEventListener('mouseover',function () {
+      resetbtn.style.backgroundColor = "hsl(185, 42%, 75%)"
+      })
+    resetbtn.addEventListener('mouseout',function () {
+      resetbtn.style.backgroundColor= "hsl(185, 42%, 37%)"
+      })
+    answerbtn.style.backgroundColor = "hsl(25, 98%, 40%)"
+    answerbtn.style.boxShadow  = "0 5px 2px  hsl(25, 91%, 27%)"
+    answerbtn.addEventListener('mouseover',function () {
+      answerbtn.style.backgroundColor = "hsl(25, 98%, 75%)"
+      })
+    answerbtn.addEventListener('mouseout',function () {
+      answerbtn.style.backgroundColor= "hsl(25, 98%, 40%)"
+      })
+    btns.style.backgroundColor = "  hsl(0, 5%, 81%)"
+    screenbtn.style.backgroundColor = " hsl(0, 0%, 94%)"
+    deletebtn.style.color = "hsl(0, 0%, 100%)"
+    togglecard.style.backgroundColor = "  hsl(0, 5%, 81%)"
+    screenbtn.style.color = "  hsl(60, 10%, 19%)"
+
+    
+
+    btn.forEach(item => {
+      item.style.backgroundColor = " hsl(45, 7%, 89%)"
+      item.style.boxShadow  = "0 5px 2px  hsl(35, 11%, 61%)"
+      item.addEventListener('mouseover',function () {
+      item.style.backgroundColor = "hsl(45, 7%, 100%)"
+      })
+    item.addEventListener('mouseout',function () {
+      item.style.backgroundColor= "hsl(45, 7%, 89%)"
+      })
+      item.style.color = " hsl(225, 0%, 0%)"
+    });
+    topcard.style.color = " hsl(225, 0%, 0%)"
+
+    
+  }
+ })
+ thirdTh.addEventListener('change',function () { 
+  if (thirdTh.checked  === true) {
+    body.style.backgroundColor = " hsl(268, 75%, 9%)"
+    main.style.backgroundColor = " hsl(268, 75%, 9%)"
+    deletebtn.style.backgroundColor = "hsl(281, 89%, 26%)"
+    deletebtn.style.boxShadow  = "0 5px 2px  hsl(285, 91%, 52%)"
+    deletebtn.addEventListener('mouseover',function () {
+      deletebtn.style.backgroundColor = "hsl(281, 89%, 50%)"
+      })
+    deletebtn.addEventListener('mouseout',function () {
+      deletebtn.style.backgroundColor= "hsl(281, 89%, 26%)"
+      })
+    resetbtn.style.backgroundColor = " hsl(281, 89%, 26%)"
+    resetbtn.style.boxShadow  = "0 5px 2px  hsl(285, 91%, 52%)"
+    resetbtn.addEventListener('mouseover',function () {
+      resetbtn.style.backgroundColor = "hsl(281, 89%, 50%)"
+      })
+    resetbtn.addEventListener('mouseout',function () {
+      resetbtn.style.backgroundColor= "hsl(281, 89%, 26%)"
+      })
+    answerbtn.style.backgroundColor = " hsl(176, 100%, 44%)"
+    answerbtn.style.boxShadow  = "0 5px 2px  hsl(177, 91%, 70%)"
+    answerbtn.addEventListener('mouseover',function () {
+      answerbtn.style.backgroundColor = "hsl(176, 100%, 80%)"
+      })
+    answerbtn.addEventListener('mouseout',function () {
+      answerbtn.style.backgroundColor= "hsl(176, 100%, 44%)"
+      })
+    btns.style.backgroundColor = "  hsl(268, 71%, 12%)"
+    screenbtn.style.backgroundColor = " hsl(268, 71%, 12%)"
+    deletebtn.style.color = "hsl(0, 0%, 100%)"
+    togglecard.style.backgroundColor = "  hsl(261, 71%, 12%)"   
+    screenbtn.style.color = "  hsl(52, 100%, 62%)"
+
+    btn.forEach(item => {
+      item.style.backgroundColor = " hsl(268, 47%, 21%)"
+      item.style.boxShadow  = "0 5px 2px  hsl(285, 91%, 52%)"
+      item.style.color = " hsl(52, 100%, 62%)"
+      item.addEventListener('mouseover',function () {
+      item.style.backgroundColor = "hsl(268, 75%, 55%)"
+      })
+    item.addEventListener('mouseout',function () {
+      item.style.backgroundColor= "hsl(268, 47%, 21%)"
+      })
+    });
+    topcard.style.color = " hsl(52, 100%, 62%)"
+  }
+ })
+</script>
+  
+  <div class="attribution">
+  Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </div>
+</body>
+</html>
