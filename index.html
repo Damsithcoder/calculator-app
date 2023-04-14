@@ -42,12 +42,11 @@
     }
     .screen{
       /* width: 500px; */
-      display: flex;
+      /* display: flex; */
     }
-    #screen{
+    .screen{
       overflow: hidden;
       margin: 20px 0;
-
       min-height: 60px;
       max-width: 100%;
       padding: 25px;
@@ -96,6 +95,7 @@
     label{
       position: absolute;
       z-index: 99;
+      height: 50px;
       /* left: -55px; */
   
       
@@ -188,13 +188,13 @@
   <div class="top">
     <h1>calc</h1>
    <div class="toggle-bar">
-    <h4>Theme</h4>
+    <h3>Theme</h3>
     <div class="toggle">
-      <label for="first">   <p class="first">1</p>
+      <label for="first">   <span class="first">1</span>
       </label>
-      <label for="second">   <p class="second">2</p>
+      <label for="second">   <span class="second">2</span>
       </label>
-      <label for="third">   <p class="third">3</p>
+      <label for="third">   <span class="third">3</span>
       </label>
     <input type="radio" name="option"id="first" checked>
     <input type="radio" name="option" id="second" >
@@ -207,7 +207,6 @@
     </div>
   </div>
   <div class="screen">
-    <input type="text" id="screen">
   </div>
   <div class="btns">
   <button class="btn number  7">7</button>
@@ -234,7 +233,7 @@
 </main>
 <script>
 
-  const screenbtn =document.querySelector('#screen')
+  const screenbtn =document.querySelector('.screen')
   const secondTh =document.querySelector('#second')
   const firstTh =document.querySelector('#first')
   const thirdTh =document.querySelector('#third')
@@ -260,100 +259,99 @@
   const buttons =document.querySelectorAll('.btn')
   buttons.forEach(function(item){
     item.addEventListener('click',function (e) { 
-      var screenval = "";
 
       if(e.target.classList.contains('1')){
-        screenbtn.value += "1";
+        screenbtn.innerText += "1";
        
         // screenbtn.style.backgroundColor ="red";
         
       }
        else if(e.target.classList.contains('2')){
-        screenbtn.value += "2";
+        screenbtn.innerText += "2";
        
        
       }
        else if(e.target.classList.contains('3')){
-        screenbtn.value += "3";
+        screenbtn.innerText += "3";
        
        
       }
        else if(e.target.classList.contains('4')){
-        screenbtn.value += "4";
+        screenbtn.innerText += "4";
        
        
       }
        else if(e.target.classList.contains('5')){
-        screenbtn.value += "5";
+        screenbtn.innerText += "5";
        
        
       }
        else if(e.target.classList.contains('6')){
-        screenbtn.value += "6";
+        screenbtn.innerText += "6";
        
        
       }
        else if(e.target.classList.contains('7')){
-        screenbtn.value += "7";
+        screenbtn.innerText += "7";
        
        
       }
        else if(e.target.classList.contains('8')){
-        screenbtn.value += "8";
+        screenbtn.innerText += "8";
        
        
       }
        else if(e.target.classList.contains('9')){
-        screenbtn.value += "9";
+        screenbtn.innerText += "9";
        
        
       }
        else if(e.target.classList.contains('0')){
-        screenbtn.value += "0";
+        screenbtn.innerText += "0";
        
        
      }
      else if(e.target.classList.contains('+')){
-        screenbtn.value += "+";
+        screenbtn.innerText += "+";
        
        
      }
      else if(e.target.classList.contains('-')){
-        screenbtn.value += "-";
+        screenbtn.innerText += "-";
        
        
      }
      else if(e.target.classList.contains('/')){
-        screenbtn.value += "/";
+        screenbtn.innerText += "/";
        
        
      }
      else if(e.target.classList.contains('*')){
-        screenbtn.value += "*";
+        screenbtn.innerText += "*";
        
        
      }
      else if(e.target.classList.contains('.')){
-        screenbtn.value += ".";
+        screenbtn.innerText += ".";
        
        
      }
      else if(e.target.classList.contains('s')){
-        screenbtn.value = eval(screenbtn.value);
+        screenbtn.innerText = eval(screenbtn.innerText);
        
      }
      if(e.target.classList.contains('reset')){
-        screenbtn.value = "";
+        screenbtn.innerText = "";
        
      }
      if(e.target.classList.contains('delete')){
-       screenbtn.value = screenbtn.value.substring( 0 , screenbtn.value.length-1);
+       screenbtn.innerText = screenbtn.innerText.substring( 0 , screenbtn.innerText.length-1);
       
 
        
      }
     
-        
+ 
      })
    
      
@@ -521,10 +519,13 @@ secondTh.addEventListener('change',function () {
   }
  })
 </script>
+  <footer>
+    <div class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+        Coded by <a href="#">Your Name Here</a>.
+      </div>
+    
+  </footer>
   
-  <div class="attribution">
-  Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
 </body>
 </html>
